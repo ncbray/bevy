@@ -16,6 +16,8 @@ mod sprite_mesh;
 #[cfg(feature = "bevy_text")]
 mod text2d;
 mod texture_slice;
+#[cfg(feature = "bevy_text")]
+mod viewport_scale;
 
 /// The sprite prelude.
 ///

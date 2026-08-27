@@ -41,7 +41,24 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
         ..default()
     };
     let text_justification = Justify::Center;
-    commands.spawn(Camera2d);
+    commands.spawn((
+        Camera2d,
+        //Transform::from_rotation(Quat::from_rotation_z(0.2)),
+        // Transform::from_scale(Vec3::splat(0.25)),
+        Projection::from(OrthographicProjection {
+            scaling_mode: bevy::camera::ScalingMode::AutoMax {
+                //max_width: 1280.0,
+                //max_height: 720.0,
+                //max_width: 640.0,
+                //max_height: 480.0,
+                max_width: 320.0,
+                max_height: 240.0,
+                //max_width: 160.0,
+                //max_height: 120.0,
+            },
+            ..OrthographicProjection::default_2d()
+        }),
+    ));
     // Demonstrate changing translation
     commands.spawn((
         Text2d::new(" translation "),

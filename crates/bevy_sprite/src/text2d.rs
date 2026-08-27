@@ -1,3 +1,4 @@
+use crate::viewport_scale::maximum_scale_in_viewport;
 use crate::{Anchor, Sprite};
 use bevy_asset::Assets;
 use bevy_camera::primitives::Aabb;
@@ -204,11 +205,19 @@ pub fn update_text2d_layout(
         camera_query
             .iter()
             .filter(|(_, visible_entities, _)| {
+                // TODO: should this be Text2d?
                 !visible_entities.get(TypeId::of::<Sprite>()).is_empty()
             })
             .filter_map(|(camera, _, maybe_camera_mask)| {
                 camera.target_scaling_factor().map(|scale_factor| {
-                    (scale_factor, maybe_camera_mask.cloned().unwrap_or_default())
+                    (
+                        scale_factor
+                            * maximum_scale_in_viewport(
+                                camera.clip_from_view(),
+                                logical_viewport_size,
+                            ),
+                        maybe_camera_mask.cloned().unwrap_or_default(),
+                    )
                 })
             }),
     );
